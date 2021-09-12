@@ -29,7 +29,7 @@ public class ProductResource {
     private ProductJpaRepository productJpaRepository;
 
     @GetMapping("/all")
-    public List<ProductEntity> getProducts() {
+    public List<ProductEntity> getAllProducts() {
         return productJpaRepository.findAll();
     }
 

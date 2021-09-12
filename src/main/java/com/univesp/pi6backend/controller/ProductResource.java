@@ -1,7 +1,6 @@
 package com.univesp.pi6backend.controller;
 
 import com.univesp.pi6backend.repository.ProductEntity;
-import com.univesp.pi6backend.repository.ProductEnum;
 import com.univesp.pi6backend.repository.ProductJpaRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

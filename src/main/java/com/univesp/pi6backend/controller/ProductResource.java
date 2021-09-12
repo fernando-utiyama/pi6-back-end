@@ -62,4 +62,10 @@ public class ProductResource {
         productJpaRepository.deleteAll();
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @DeleteMapping("/product")
+    public void deleteProduct(@RequestParam(name = "id") Long id) {
+        productJpaRepository.deleteById(id);
+    }
+
 }

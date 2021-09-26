@@ -14,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.math.BigDecimal;
 
 
 @Getter
@@ -34,7 +35,7 @@ public class ProductEntity {
 
     @NonNull
     @Column
-    private Double price;
+    private BigDecimal price;
 
     @NonNull
     @Column

@@ -39,6 +39,10 @@ public class ProductEntity {
 
     @NonNull
     @Column
+    private int among;
+
+    @NonNull
+    @Column
     private String seller;
 
 }

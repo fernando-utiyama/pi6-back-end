@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.univesp.pi6backend.repository.ProductEnum;
 import lombok.Data;
 
-import javax.persistence.Column;
+import java.math.BigDecimal;
 
 @Data
 public class ProductDTO {
@@ -15,10 +15,13 @@ public class ProductDTO {
     @JsonProperty
     ProductEnum product;
 
-    @Column
-    Double price;
+    @JsonProperty
+    BigDecimal price;
 
-    @Column
+    @JsonProperty
+    Integer among;
+
+    @JsonProperty
     String seller;
 
 }

@@ -50,6 +50,7 @@ public class ProductResource {
         entity.setProduct(productDTO.getProduct());
         entity.setPrice(productDTO.getPrice());
         entity.setSeller(productDTO.getSeller());
+        entity.setAmong(productDTO.getAmong());
         productJpaRepository.save(entity);
         URI uri = uriBuilder.path("/products/product/?id={id}").buildAndExpand(entity.getId()).toUri();
         return ResponseEntity.created(uri).body(entity);

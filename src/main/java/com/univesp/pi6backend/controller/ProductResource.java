@@ -43,7 +43,8 @@ public class ProductResource {
                                                      UriComponentsBuilder uriBuilder) {
         ProductEntity entity;
         if (productDTO.getId() != null) {
-            entity = productJpaRepository.findById(productDTO.getId()).orElseThrow(EntityNotFoundException::new);
+            entity = productJpaRepository.findById(productDTO.getId()).orElse(new ProductEntity());
+            entity.setId(productDTO.getId());
         } else {
             entity = new ProductEntity();
         }

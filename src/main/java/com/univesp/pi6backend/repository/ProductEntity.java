@@ -31,7 +31,7 @@ public class ProductEntity {
 
     @NonNull
     @Enumerated(EnumType.ORDINAL)
-    private ProductEnum product;
+    private String product;
 
     @NonNull
     @Column

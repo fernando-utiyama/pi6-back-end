@@ -13,7 +13,7 @@ public class ProductDTO {
     Long id;
 
     @JsonProperty
-    ProductEnum product;
+    String product;
 
     @JsonProperty
     BigDecimal price;

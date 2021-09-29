@@ -18,7 +18,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.persistence.EntityNotFoundException;
 import java.net.URI;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/products")
@@ -30,7 +32,9 @@ public class ProductResource {
 
     @GetMapping("/all")
     public List<ProductEntity> getAllProducts() {
-        return productJpaRepository.findAll();
+        return productJpaRepository.findAll().stream()
+                .sorted(Comparator.comparing(ProductEntity::getPrice))
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/product")

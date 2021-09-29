@@ -30,7 +30,6 @@ public class ProductEntity {
     private Long id;
 
     @NonNull
-    @Enumerated(EnumType.ORDINAL)
     private String product;
 
     @NonNull

@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -59,6 +60,21 @@ public class ProductResource {
         productJpaRepository.save(entity);
         URI uri = uriBuilder.path("/products/product/?id={id}").buildAndExpand(entity.getId()).toUri();
         return ResponseEntity.created(uri).body(entity);
+    }
+
+    @PutMapping("/product")
+    public ResponseEntity<ProductEntity> updateProduct(@RequestParam(name = "id") Long id,
+                                       @RequestBody ProductDTO productDTO,
+                                       UriComponentsBuilder uriBuilder) {
+
+        ProductEntity productEntity = productJpaRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        productEntity.setProduct(productDTO.getProduct());
+        productEntity.setPrice(productDTO.getPrice());
+        productEntity.setSeller(productDTO.getSeller());
+        productEntity.setAmong(productDTO.getAmong());
+        productJpaRepository.save(productEntity);
+        URI uri = uriBuilder.path("/products/product/?id={id}").buildAndExpand(productEntity.getId()).toUri();
+        return ResponseEntity.created(uri).body(productEntity);
     }
 
     @ResponseStatus(HttpStatus.OK)

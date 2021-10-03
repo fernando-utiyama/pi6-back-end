@@ -79,15 +79,15 @@ public class ProductResource {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @DeleteMapping("/all")
-    public void deleteAllProducts() {
-        productJpaRepository.deleteAll();
+    @DeleteMapping("/product/{id}")
+    public void deleteProduct(@PathVariable(name = "id") Long id) {
+        productJpaRepository.deleteById(id);
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @DeleteMapping("/product")
-    public void deleteProduct(@RequestParam(name = "id") Long id) {
-        productJpaRepository.deleteById(id);
+    @DeleteMapping("/all")
+    public void deleteAllProducts() {
+        productJpaRepository.deleteAll();
     }
 
 }

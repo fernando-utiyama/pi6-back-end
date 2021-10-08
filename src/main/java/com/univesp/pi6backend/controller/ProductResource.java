@@ -81,7 +81,7 @@ public class ProductResource {
     }
 
     @PutMapping("/product/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable Long id,
+    public ResponseEntity<ProductDTO> updateProduct(@PathVariable Long id,
                                                  @RequestBody ProductDTO productDTO,
                                                  UriComponentsBuilder uriBuilder) {
 
@@ -92,7 +92,7 @@ public class ProductResource {
         product.setQuantity(productDTO.getQuantity());
         productJpaRepository.save(product);
         URI uri = uriBuilder.path("/products/product/{id}").buildAndExpand(product.getId()).toUri();
-        return ResponseEntity.created(uri).body(product);
+        return ResponseEntity.created(uri).body(ProductDTOConverter.productToProductDto(product));
     }
 
     @ResponseStatus(HttpStatus.OK)

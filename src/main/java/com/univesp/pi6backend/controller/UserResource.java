@@ -1,5 +1,6 @@
 package com.univesp.pi6backend.controller;
 
+import com.univesp.pi6backend.repository.User;
 import com.univesp.pi6backend.repository.UserJpaRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

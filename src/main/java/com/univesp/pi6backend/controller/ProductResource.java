@@ -65,13 +65,7 @@ public class ProductResource {
 
         User user;
         Optional<User> optionalUser = userJpaRepository.findByName(productDTO.getSeller());
-        if (optionalUser.isPresent()) {
-            user = optionalUser.get();
-        } else {
-            user = new User(productDTO.getSeller());
-            userJpaRepository.save(new User(productDTO.getSeller()));
-            userJpaRepository.flush();
-        }
+        user = optionalUser.orElseGet(() -> new User(productDTO.getSeller()));
         entity.setUser(user);
         productJpaRepository.save(entity);
         URI uri = uriBuilder.path("/products/product/{id}").buildAndExpand(entity.getId()).toUri();

@@ -70,6 +70,7 @@ public class ProductResource {
         } else {
             user = new User(productDTO.getSeller());
             userJpaRepository.save(new User(productDTO.getSeller()));
+            userJpaRepository.flush();
         }
         entity.setUser(user);
         productJpaRepository.save(entity);

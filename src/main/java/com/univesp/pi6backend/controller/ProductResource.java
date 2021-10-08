@@ -1,7 +1,9 @@
 package com.univesp.pi6backend.controller;
 
-import com.univesp.pi6backend.repository.ProductEntity;
+import com.univesp.pi6backend.repository.Product;
 import com.univesp.pi6backend.repository.ProductJpaRepository;
+import com.univesp.pi6backend.repository.User;
+import com.univesp.pi6backend.repository.UserJpaRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -32,50 +33,53 @@ public class ProductResource {
     @Autowired
     private ProductJpaRepository productJpaRepository;
 
+    @Autowired
+    private UserJpaRepository userJpaRepository;
+
     @GetMapping("/all")
-    public List<ProductEntity> getAllProducts() {
+    public List<Product> getAllProducts() {
         return productJpaRepository.findAll().stream()
-                .sorted(Comparator.comparing(ProductEntity::getPrice))
+                .sorted(Comparator.comparing(Product::getPrice))
                 .collect(Collectors.toList());
     }
 
     @GetMapping("/product/{id]")
-    public ProductEntity getProduct(@PathVariable(name = "id") Long id) {
+    public Product getProduct(@PathVariable(name = "id") Long id) {
         return productJpaRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
     @PostMapping("/create")
-    public ResponseEntity<ProductEntity> postProduct(@RequestBody ProductDTO productDTO,
-                                                     UriComponentsBuilder uriBuilder) {
-        ProductEntity entity;
+    public ResponseEntity<Product> postProduct(@RequestBody ProductDTO productDTO,
+                                               UriComponentsBuilder uriBuilder) {
+        Product entity;
         if (productDTO.getId() != null) {
-            entity = productJpaRepository.findById(productDTO.getId()).orElse(new ProductEntity());
+            entity = productJpaRepository.findById(productDTO.getId()).orElse(new Product());
             entity.setId(productDTO.getId());
         } else {
-            entity = new ProductEntity();
+            entity = new Product();
         }
         entity.setProduct(productDTO.getProduct());
         entity.setPrice(productDTO.getPrice());
-        entity.setSeller(productDTO.getSeller());
-        entity.setAmong(productDTO.getAmong());
+        entity.setQuantity(productDTO.getAmong());
+        entity.setUser(userJpaRepository.findByName(productDTO.getSeller()).orElse(new User(productDTO.getSeller())));
         productJpaRepository.save(entity);
         URI uri = uriBuilder.path("/products/product/{id}").buildAndExpand(entity.getId()).toUri();
         return ResponseEntity.created(uri).body(entity);
     }
 
     @PutMapping("/product/{id}")
-    public ResponseEntity<ProductEntity> updateProduct(@PathVariable Long id,
-                                       @RequestBody ProductDTO productDTO,
-                                       UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<Product> updateProduct(@PathVariable Long id,
+                                                 @RequestBody ProductDTO productDTO,
+                                                 UriComponentsBuilder uriBuilder) {
 
-        ProductEntity productEntity = productJpaRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-        productEntity.setProduct(productDTO.getProduct());
-        productEntity.setPrice(productDTO.getPrice());
-        productEntity.setSeller(productDTO.getSeller());
-        productEntity.setAmong(productDTO.getAmong());
-        productJpaRepository.save(productEntity);
-        URI uri = uriBuilder.path("/products/product/{id}").buildAndExpand(productEntity.getId()).toUri();
-        return ResponseEntity.created(uri).body(productEntity);
+        Product product = productJpaRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        product.setProduct(productDTO.getProduct());
+        product.setPrice(productDTO.getPrice());
+        product.setUser(userJpaRepository.findByName(productDTO.getSeller()).orElseThrow(EntityNotFoundException::new));
+        product.setQuantity(productDTO.getAmong());
+        productJpaRepository.save(product);
+        URI uri = uriBuilder.path("/products/product/{id}").buildAndExpand(product.getId()).toUri();
+        return ResponseEntity.created(uri).body(product);
     }
 
     @ResponseStatus(HttpStatus.OK)

@@ -23,6 +23,7 @@ import javax.persistence.EntityNotFoundException;
 import java.net.URI;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -61,7 +62,16 @@ public class ProductResource {
         entity.setProduct(productDTO.getProduct());
         entity.setPrice(productDTO.getPrice());
         entity.setQuantity(productDTO.getAmong());
-        entity.setUser(userJpaRepository.findByName(productDTO.getSeller()).orElse(new User(productDTO.getSeller())));
+
+        User user;
+        Optional<User> optionalUser = userJpaRepository.findByName(productDTO.getSeller());
+        if (optionalUser.isPresent()) {
+            user = optionalUser.get();
+        } else {
+            user = new User(productDTO.getSeller());
+            userJpaRepository.save(new User(productDTO.getSeller()));
+        }
+        entity.setUser(user);
         productJpaRepository.save(entity);
         URI uri = uriBuilder.path("/products/product/{id}").buildAndExpand(entity.getId()).toUri();
         return ResponseEntity.created(uri).body(entity);

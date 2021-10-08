@@ -2,8 +2,8 @@ package com.univesp.pi6backend.controller;
 
 import com.univesp.pi6backend.repository.Product;
 import com.univesp.pi6backend.repository.ProductJpaRepository;
-import com.univesp.pi6backend.repository.UserJpaRepository;
 import com.univesp.pi6backend.repository.Usuario;
+import com.univesp.pi6backend.repository.UsuarioJpaRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,7 +35,7 @@ public class ProductResource {
     private ProductJpaRepository productJpaRepository;
 
     @Autowired
-    private UserJpaRepository userJpaRepository;
+    private UsuarioJpaRepository usuarioJpaRepository;
 
     @GetMapping("/all")
     public List<ProductDTO> getAllProducts() {
@@ -64,7 +64,7 @@ public class ProductResource {
         entity.setQuantity(productDTO.getAmong());
 
         Usuario usuario;
-        Optional<Usuario> optionalUser = userJpaRepository.findByName(productDTO.getSeller());
+        Optional<Usuario> optionalUser = usuarioJpaRepository.findByName(productDTO.getSeller());
         usuario = optionalUser.orElseGet(() -> new Usuario(productDTO.getSeller()));
         entity.setUsuario(usuario);
         productJpaRepository.save(entity);
@@ -80,7 +80,7 @@ public class ProductResource {
         Product product = productJpaRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         product.setProduct(productDTO.getProduct());
         product.setPrice(productDTO.getPrice());
-        product.setUsuario(userJpaRepository.findByName(productDTO.getSeller()).orElseThrow(EntityNotFoundException::new));
+        product.setUsuario(usuarioJpaRepository.findByName(productDTO.getSeller()).orElseThrow(EntityNotFoundException::new));
         product.setQuantity(productDTO.getAmong());
         productJpaRepository.save(product);
         URI uri = uriBuilder.path("/products/product/{id}").buildAndExpand(product.getId()).toUri();

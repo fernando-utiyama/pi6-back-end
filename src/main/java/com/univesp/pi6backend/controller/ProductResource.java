@@ -71,12 +71,11 @@ public class ProductResource {
         Optional<Usuario> optionalUser = usuarioJpaRepository.findByName(productDTO.getSeller());
         usuario = optionalUser.orElseGet(() ->
                 usuarioJpaRepository.save(new Usuario(productDTO.getSeller())));
-        usuarioJpaRepository.flush();
-        entityManager.clear();
-
         entity.setUsuario(usuario);
 
         productJpaRepository.save(entity);
+        entityManager.clear();
+
         URI uri = uriBuilder.path("/products/product/{id}").buildAndExpand(entity.getId()).toUri();
         return ResponseEntity.created(uri).body(entity);
     }

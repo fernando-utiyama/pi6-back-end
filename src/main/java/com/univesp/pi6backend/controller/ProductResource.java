@@ -54,7 +54,7 @@ public class ProductResource {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Product> postProduct(@RequestBody ProductDTO productDTO,
+    public ResponseEntity<ProductDTO> postProduct(@RequestBody ProductDTO productDTO,
                                                UriComponentsBuilder uriBuilder) {
         Product entity;
         if (productDTO.getId() != null) {
@@ -77,7 +77,7 @@ public class ProductResource {
         entityManager.clear();
 
         URI uri = uriBuilder.path("/products/product/{id}").buildAndExpand(entity.getId()).toUri();
-        return ResponseEntity.created(uri).body(entity);
+        return ResponseEntity.created(uri).body(ProductDTOConverter.productToProductDto(entity));
     }
 
     @PutMapping("/product/{id}")

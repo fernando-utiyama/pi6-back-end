@@ -41,7 +41,7 @@ public class Product {
 
     @NonNull
     @JoinColumn
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.ALL)
     private Usuario usuario;
 
 }

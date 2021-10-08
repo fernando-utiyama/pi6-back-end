@@ -42,7 +42,7 @@ public class Product {
     @NonNull
     @JoinColumn
     @ManyToOne(cascade = CascadeType.PERSIST)
-    private User user;
+    private Usuario usuario;
 
 }
 

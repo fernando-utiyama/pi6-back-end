@@ -1,7 +1,7 @@
 package com.univesp.pi6backend.controller;
 
 import com.univesp.pi6backend.repository.Product;
-import com.univesp.pi6backend.repository.User;
+import com.univesp.pi6backend.repository.Usuario;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,11 +41,11 @@ public class ProductDTOConverter {
         if (product == null) {
             return null;
         }
-        User user = product.getUser();
-        if (user == null) {
+        Usuario usuario = product.getUsuario();
+        if (usuario == null) {
             return null;
         }
-        String name = user.getName();
+        String name = usuario.getName();
         if (name == null) {
             return null;
         }

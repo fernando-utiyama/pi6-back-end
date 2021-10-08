@@ -1,7 +1,7 @@
 package com.univesp.pi6backend.controller;
 
-import com.univesp.pi6backend.repository.User;
 import com.univesp.pi6backend.repository.UserJpaRepository;
+import com.univesp.pi6backend.repository.Usuario;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +19,7 @@ public class UserResource {
     private UserJpaRepository userJpaRepository;
 
     @GetMapping("/all")
-    public List<User> getAllUsers() {
+    public List<Usuario> getAllUsers() {
         return userJpaRepository.findAll();
     }
 }

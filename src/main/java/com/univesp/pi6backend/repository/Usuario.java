@@ -17,7 +17,7 @@ import javax.persistence.Id;
 @RequiredArgsConstructor
 @NoArgsConstructor
 @Entity
-public class User {
+public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

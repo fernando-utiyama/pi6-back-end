@@ -18,7 +18,7 @@ public class ProductDTO {
     BigDecimal price;
 
     @JsonProperty
-    Integer among;
+    Integer quantity;
 
     @JsonProperty
     String seller;

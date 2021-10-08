@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import java.net.URI;
 import java.util.Comparator;
@@ -36,6 +37,9 @@ public class ProductResource {
 
     @Autowired
     private UsuarioJpaRepository usuarioJpaRepository;
+
+    @Autowired
+    private EntityManager entityManager;
 
     @GetMapping("/all")
     public List<ProductDTO> getAllProducts() {
@@ -61,12 +65,15 @@ public class ProductResource {
         }
         entity.setProduct(productDTO.getProduct());
         entity.setPrice(productDTO.getPrice());
-        entity.setQuantity(productDTO.getAmong());
+        entity.setQuantity(productDTO.getQuantity());
 
         Usuario usuario;
         Optional<Usuario> optionalUser = usuarioJpaRepository.findByName(productDTO.getSeller());
         usuario = optionalUser.orElseGet(() ->
                 usuarioJpaRepository.save(new Usuario(productDTO.getSeller())));
+        usuarioJpaRepository.flush();
+        entityManager.clear();
+
         entity.setUsuario(usuario);
 
         productJpaRepository.save(entity);
@@ -83,7 +90,7 @@ public class ProductResource {
         product.setProduct(productDTO.getProduct());
         product.setPrice(productDTO.getPrice());
         product.setUsuario(usuarioJpaRepository.findByName(productDTO.getSeller()).orElseThrow(EntityNotFoundException::new));
-        product.setQuantity(productDTO.getAmong());
+        product.setQuantity(productDTO.getQuantity());
         productJpaRepository.save(product);
         URI uri = uriBuilder.path("/products/product/{id}").buildAndExpand(product.getId()).toUri();
         return ResponseEntity.created(uri).body(product);

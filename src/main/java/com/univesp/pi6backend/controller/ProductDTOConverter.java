@@ -32,7 +32,7 @@ public class ProductDTOConverter {
         productDTO.setId(product.getId());
         productDTO.setProduct(product.getProduct());
         productDTO.setPrice(product.getPrice());
-        productDTO.setAmong(product.getQuantity());
+        productDTO.setQuantity(product.getQuantity());
 
         return productDTO;
     }

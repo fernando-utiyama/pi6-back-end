@@ -35,13 +35,12 @@ public class Product {
     @Column
     private BigDecimal price;
 
-    @NonNull
     @Column
     private int quantity;
 
     @NonNull
     @JoinColumn
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Usuario usuario;
 
 }

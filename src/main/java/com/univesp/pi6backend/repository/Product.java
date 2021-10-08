@@ -6,6 +6,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -38,7 +39,7 @@ public class Product {
     private int quantity;
 
     @NonNull
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private User user;
 
 }

@@ -21,7 +21,6 @@ import javax.persistence.OneToMany;
 public class Usuario {
 
     @Id
-    @OneToMany
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
@@ -29,7 +28,12 @@ public class Usuario {
     @Column
     private String name;
 
+    @OneToMany
+    @JoinColumn // Esta coluna está na tabela "evento".
+    private List<Product> productList;
+
 //    @Column
 //    private String phone;
+
 
 }

@@ -38,9 +38,9 @@ public class ProductResource {
     private UserJpaRepository userJpaRepository;
 
     @GetMapping("/all")
-    public List<Product> getAllProducts() {
-        return productJpaRepository.findAll().stream()
-                .sorted(Comparator.comparing(Product::getPrice))
+    public List<ProductDTO> getAllProducts() {
+        return ProductDTOConverter.productsToProductsDto(productJpaRepository.findAll()).stream()
+                .sorted(Comparator.comparing(ProductDTO::getPrice))
                 .collect(Collectors.toList());
     }
 

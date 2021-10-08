@@ -65,7 +65,8 @@ public class ProductResource {
 
         Usuario usuario;
         Optional<Usuario> optionalUser = usuarioJpaRepository.findByName(productDTO.getSeller());
-        usuario = optionalUser.orElseGet(() -> new Usuario(productDTO.getSeller()));
+        usuario = optionalUser.orElseGet(() ->
+                usuarioJpaRepository.save(new Usuario(productDTO.getSeller())));
         entity.setUsuario(usuario);
 
         productJpaRepository.save(entity);

@@ -27,7 +27,7 @@ public class Usuario {
     @Column
     private String name;
 
-    @Column
-    private String phone;
+//    @Column
+//    private String phone;
 
 }
